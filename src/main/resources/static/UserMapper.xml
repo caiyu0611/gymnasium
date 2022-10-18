@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.njzhenghou.mapper.UserMapper">
+<!--    //    id ,addtime ,name ,password ,sex ,phone ,email-->
+
+    <!--    //用户登陆-->
+<!--    User getLogin(UserDto userDto);-->
+    <select id="getLogin" resultType="User" parameterType="UserDto">
+        SELECT * FROM `user` WHERE `name` = #{name} AND `password` = #{password}
+    </select>
+
+<!--    //注册用户,新增,并考虑用户是否存在-->
+<!--    int insertUser(User user);-->
+    <insert id="insertUser" parameterType="User">
+        INSERT INTO `user` (`name`,`password`,sex,phone,email) VALUES (#{name},#{password},#{sex},#{phone},#{email})
+    </insert>
+
+<!--    //查询用户是否存在-->
+<!--    int SelectUserOne(String name);-->
+    <select id="selectUserOne" resultType="int">
+        SELECT COUNT(*) FROM `user` WHERE `name`= #{name}
+    </select>
+<!--    //修改密码,先校验数据,在判断前后密码是否一致,在对密码进行修改,在最后清楚Session-->
+<!--    int updateUserPassword(@Param("id") String id, @Param("password") String newPassword);-->
+    <update id="updateUserPassword">
+        UPDATE `user` SET `password` = #{password} WHERE id = #{id}
+    </update>
+<!--    //查询要修改的密码-->
+<!--    String selectUserPassword(String id);-->
+    <select id="selectUserPassword" parameterType="String">
+        SELECT `password` FROM `user` WHERE id = #{id}
+    </select>
+
+</mapper>

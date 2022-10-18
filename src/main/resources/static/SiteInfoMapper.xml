@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.njzhenghou.mapper.SiteInfoMapper">
+
+<!--    //查询所有场地信息-->
+<!--    List<SiteInfoDto> selectSiteInfoAll();-->
+    <select id="selectSiteInfoAll" resultType="SiteInfoDto">
+        select * from site_info
+    </select>
+
+
+<!--    //模糊查询场地信息-->
+<!--    List<SiteInfoDto> SelectSiteInfoSearch(SiteInfoSearchDto siteInfoSearchDto);-->
+<!--    //根据场地名称 sitename, 场地位置 sitelocation, 场地状态 sitestatus-->
+<!--    private String SiteName;-->
+
+<!--    private String siteLocation;-->
+
+<!--    private String siteStatus;-->
+
+    <select id="SelectSiteInfoSearch" parameterType="siteInfoSearchDto" resultType="SiteInfoDto">
+        select * from site_info
+            <where>
+                <if test="siteName != null and siteName != ''">
+                    and sitename = #{siteName}
+                </if>
+                <if test="siteLocation != null and siteLocation != ''">
+                    and sitelocation = #{siteLocation}
+                </if>
+                <if test="siteStatus != null and siteStatus != ''">
+                    and sitestatus = #{siteStatus}
+                </if>
+            </where>
+    </select>
+</mapper>

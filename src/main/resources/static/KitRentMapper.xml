@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.njzhenghou.mapper.KitRentMapper">
+
+<!--    //    id ,addtime,kitname, rentnumber,hourprice, hour,totalprice ,username,phone, approve ,ispay-->
+<!--    //    主键 创建时间  器材名称  数量        租赁时价    租赁小时数   总价    姓名     手机号   是否审核  是否支付-->
+<!--    //主键-->
+<!--    private Integer id;-->
+<!--    //创建时间-->
+<!--    private Date addTime;-->
+<!--    //器材名称-->
+<!--    private String kitName;-->
+<!--    //数量-->
+<!--    private String rentNumber;-->
+<!--    //租赁时价-->
+<!--    private String hourPrice;-->
+<!--    //租赁小时数-->
+<!--    private String hour;-->
+<!--    //总价-->
+<!--    private String totalPrice;-->
+<!--    //姓名-->
+<!--    private String username;-->
+<!--    //手机号-->
+<!--    private String phone;-->
+<!--    //是否审核  0 未审核  1 已审核-->
+<!--    private String approve;-->
+<!--    //是否支付  0 未支付  1 已支付-->
+<!--    private String isPay;-->
+
+
+<!--    //查自己的租赁器材-->
+<!--    List<KitRentDto> selectKitRentDtoAll();-->
+    <select id="selectKitRentDtoAll" resultType="KitRentDto">
+        select * from kit_rent kr inner join `user` u on kr.userid = u.id
+    </select>
+
+<!--    //添加自己的租赁器材,就是点击租赁器材-->
+<!--    Integer insertKitRent(KitRentDto kitRentDto);-->
+    <insert id="insertKitRent" parameterType="KitRentDto">
+        insert into kit_rent (addtime,kitname,rentnumber,hourprice,hour,totalprice,username,phone,approve ,ispay)
+        values (#{addTime},#{addTime},#{addTime},#{addTime},#{addTime},#{addTime},#{addTime},#{addTime},#{addTime},#{addTime})
+    </insert>
+
+<!--    //对自己租赁器材的修改,只能修改租赁的小时数和数量,同时审核状态为0的时候才能修改成功-->
+<!--    Integer updateKitRent(Integer id);-->
+    <update id="updateKitRent" parameterType="int">
+        update kit_rent
+        <set>
+            <if test="rentNumber != null and rentNumber != ''">
+                rentnumber = #{rentNumber},
+            </if>
+            <if test="hour != null and hour != ''">
+                `hour` = #{hour},
+            </if>
+        </set>
+        <where>
+            id = {id} and approve=0
+        </where>
+    </update>
+
+<!--    //归还器材,就是删除自己租赁的器材,或者不想要自己租赁的器材(为审核通过为支付)-->
+<!--    Integer deleteKitRent(Integer id);-->
+    <delete id="deleteKitRent" parameterType="int">
+        delete from kit_rent where id = #{id}
+    </delete>
+</mapper>

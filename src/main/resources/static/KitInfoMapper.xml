@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.njzhenghou.mapper.KitInfoMapper">
+
+
+<!--    //    id,addtime,kitname,kitnumber,hourprice-->
+<!--    //    主键 创建时间 器材名称 器材数量 租赁时价-->
+<!--    //根据分类的id查询器材,如果没有分类的id,就代表查询所有-->
+<!--    List<KitInfo> selectKitInfoById(Integer id);-->
+    <select id="selectKitInfoById" parameterType="int" resultType="KitInfoDto">
+        SELECT * from kit_info
+        <where>
+            <if test="sortId != null and sortId != ''">
+                sortid = #{sortId}
+            </if>
+        </where>
+    </select>
+
+<!--    //根据器材的id找到器材-->
+<!--    KitInfoDto selectKitInfoId(Integer id);-->
+    <select id="selectKitInfoId" parameterType="int" resultType="KitInfoDto">
+        SELECT * FROM kit_info where id = #{id}
+    </select>
+
+<!--    //查询所有器材-->
+<!--    List<KitInfoDto> selectKitInfoAll();-->
+    <select id="selectKitInfoAll" resultType="KitInfoDto">
+        select * from kit_info
+    </select>
+
+    <!--    //动态查询器材-->
+    <!--    List<KitInfoDto> selectKitInfoSearch(KitInfoSearchDto kidInfoSearchDto);-->
+    <select id="selectKitInfoSearch" parameterType="kitInfoSearchDto" resultType="KitInfoDto">
+        select * from kit_info
+            <where>
+                <if test="kitName != null and kitName != ''">
+                    and kitname = #{kitName}
+                </if>
+            </where>
+    </select>
+</mapper>
